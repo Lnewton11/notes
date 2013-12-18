@@ -7,10 +7,10 @@ App.populator('send', function (page) {
 		usernames  = [],
 	    pictures = [];
 
-	/*timer.clickable().bind('change', function (){
-
+	timer.clickable().bind('change', function (){
+		console.log("yo dog i'm a log " + timer.find('#time-select').val());
 	})
-
+/*
 
         Clickable(timer);
         timer.querySelector('select')
