@@ -1,3 +1,31 @@
+var redis = require('redis-url')
+	        .connect(process.env.REDISTOGO_URL)
+	        .on('connect', function () {})
+	        .on('error', function () {});
+
+/*
+	Dear Mike,
+	Welcome to Redis in NodeJS.
+
+	redis.get('fuck', function (err, data) {
+		if (err) {
+			// aww shit
+		} else {
+			// fuck yea!
+		}
+	});
+
+	redis.set('fuck', 'face', function (err) {
+		if (err) {
+			// god damn..
+		}
+	});
+
+	Note that it is very important to have the callback in redis.set.
+	This insures that synchronous exceptions are not thrown by the
+	library because that would bring down the server.
+*/
+
 var http = require('http');
 
 // returns null if no push token found

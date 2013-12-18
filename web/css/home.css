@@ -20,6 +20,10 @@
   border-top-width: 1px;
   background-color: #fff; 
 }
+.convo.active {
+  background: red;
+  /*TODO*/
+}
 
 .img {
   float: left;

@@ -20,6 +20,19 @@ App.populator('home', function (page, data) {
 			new_convo.find('.expired-text').text('Unread message');
 		}
 
+		new_convo.clickable().on('click', function () {
+			if (data.has_read) {
+				//TODO
+				App.dialog({
+					title: 'Too fucking bad',
+					text: 'Seriously',
+					cancelButton: 'My bad'
+				});
+			} else {
+				//TODO: go to the message
+			}
+		});
+
 		new_convo.find('.img').css('background-image', 'url(' + data.thumbnail + ')');
 		new_convo.find('.timestamp').text(data.timestamp);
 		return new_convo;
