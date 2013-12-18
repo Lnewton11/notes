@@ -1,1 +1,47 @@
 /* put stuff here */
+
+#sendbutton {
+	font-style: italic;
+	font-size: 15pt;
+	width: 100%;
+	background-color: #cc3333;
+	top: 200px;
+	/*text-align: right;*/
+}
+
+.button-wrap {
+    position: absolute;
+    bottom: 20%;
+    width: 100%;
+}
+
+.app-content .app-button.login{
+    position: relative;
+    height: 72px;
+    background: #fff;
+    color: #4486f0;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 72px;
+}
+.welcome-page .app-content{
+	background-color: #30b7de;
+}
+#compose {
+	width: 55px;
+	height: 44px;
+	position: absolute;
+	background-size: 29px 19px;
+	background-image: url(/img/navplane.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	padding: 0;
+	margin: 0;
+}
+.home-page .app-topbar{
+	background-color: #30b7de;
+}
+
+.send-page .app-topbar {
+	background-color: #30b7de;
+}

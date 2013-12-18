@@ -1,0 +1,38 @@
+.timer-holder {
+  position: relative;
+  padding: 11px 15px;
+  border: 0 solid #E6E8ED;
+  border-top-width: 1px;
+  background-color: #fff; 
+}
+
+#timer {
+	float: left;
+    background-image: url(http://profilepics.kik.com/UlXvDoTGwzgAXeU1tjBa4JYn3ds/thumb.jpg);
+    width: 48px;
+    height: 48px;
+    margin-right: 15px;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #D9D9D9;
+    -webkit-background-size: 48px 48px;
+    background-size: 48px 48px;
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    -webkit-border-radius: 24px;
+    border-radius: 24px;
+}
+
+.app-content #timer select {
+	position: absolute;
+	top: 11px;
+	left: 15px;
+	height: 48px;
+	width: 48px;
+	opacity: 0;
+	-webkit-appearance: none;
+}
+#message {
+	height: 300px;
+}

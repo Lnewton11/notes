@@ -1,47 +1,112 @@
 <!DOCTYPE html>
-<html manifest="cache.manifest">
+<!-- <html manifest="cache.manifest"> -->
+<html>
 	<head>
 		<!-- Card info -->
-		<title>Starter Kit</title>
+		<title>Notes</title>
 		<meta name="description" content="My amazing card!">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<meta name="kik-prefer" content="true">
 		<link rel="kik-icon" href="/img/icon.png">
 
 		<!-- Styles -->
-		<link rel="stylesheet" href="http://cdn.kik.com/app/1/default.css">
+		<link rel="stylesheet" href="http://cdn.kik.com/app/2-DEV/app.min.css">
 		<link rel="stylesheet" href="/css/styles.css">
+		<link rel="stylesheet" href="/css/home.css">
+		<link rel="stylesheet" href="/css/send.css">
 	</head>
 
 	<body>
 		<!-- Pages -->
 
-		<div class="app-page" data-page="home">
-			<div class="app-topbar">
-				<div class="app-title">Home page</div>
-			</div>
-			<div class="app-content">
-				<div class="app-section">
-					<div class="app-button" data-target="page2">Go to Page 2</div>
+		<div class="app-page welcome-page" data-page="welcome">
+			<div class="app-content" data-no-scroll="true">
+				<div class="title"></div>
+				<div class="message"> Some app description </div>
+				<div class="button-wrap">
+					<div class="app-button login"> Sign in with Kik </div>
 				</div>
 			</div>
 		</div>
 
-		<div class="app-page" data-page="page2">
+
+		<div class="app-page home-page" data-page="home">
 			<div class="app-topbar">
-				<div class="app-button left" data-back="true">Back</div>
-				<div class="app-title">Page 2</div>
+				<div class="app-title">Float</div>
+				<div class="app-button right" id="compose" data-target="send"></div>
 			</div>
 			<div class="app-content">
-				Page 2 is not lonley
+				<div class="history">
+					<div class="convo">
+						<div class="img"></div>
+						<div class="holder">
+							<div class="name-holder">
+								<div class="timestamp">12 min</div>
+								<div class="name">Test Name</div>
+							</div>
+							<div class="message-state">
+								<div class="state-text"><span class="state-icon"></span> <span class="expired-text"></span> </div>
+							</div>
+							<div class="picture-list"></div>
+						</div>
+					</div>
+					<div class="sent-convo">
+						<div class="img"></div>
+						<div class="holder">
+							<div class="sent-holder">
+								<div class="sent-timestamp"></div>
+								<div class="sent"><span class="sent-icon"></span> <span class="sent-text"></span></div>	
+							</div>
+							<div class="picture-list"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+
+		<div class="app-page send-page" data-page="send">
+			<div class="app-topbar">
+				<div class="app-button left" data-back="true">Back</div>
+				<div class="app-title">Send Message</div>
+				<div class="app-button right" id="send">Send</div>
+			</div>
+			<div class="app-content" id="blah">
+				<div class="app-button" id="add">
+					<span id='SelectText'> Select contacts to send to</span>
+					<span class="app-button" id="plus"></span>
+				</div>
+				<div class="timer-holder">
+					<div class="app=button" id='timer'>
+						<select>
+							<option value="1">1 second</option>
+		                    <option value="2">2 seconds</option>
+		                    <option value="3">3 seconds</option>
+		                    <option value="4">4 seconds</option>
+		                    <option value="5">5 seconds</option>
+		                    <option value="6" selected>6 seconds</option>
+		                    <option value="7">7 seconds</option>
+		                    <option value="8">8 seconds</option>
+		                    <option value="9">9 seconds</option>
+		                    <option value="10">10 seconds</option>
+		                	<option value="10">11 seconds</option>
+		                	<option value="10">12 seconds</option>
+                    	</select>
+					</div>
+					<textarea class="app-input" id="message" placeholder="Type a message..."></textarea>
+				</div>
+			</div>
+		</div>
+
+
 
 		<!-- Scripts -->
 		<script src="/zerver/API.js"></script>
 		<script src="http://zeptojs.com/zepto.min.js"></script>
 		<script src="http://cdn.kik.com/cards/0/cards.js"></script>
-		<script src="http://cdn.kik.com/app/1/app.js"></script>
+		<script src="http://cdn.kik.com/app/2-DEV/app.min.js"></script>
+		<script src="/js/page-home.js"></script>
+		<script src="/js/page-send.js"></script>	
+		<script src="/js/page-welcome.js"></script>	
 		<script src="/js/main.js"></script>
 	</body>
 </html>
