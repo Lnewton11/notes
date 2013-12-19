@@ -3,6 +3,8 @@ var redis = require('redis-url')
 	        .on('connect', function () {})
 	        .on('error', function () {});
 
+var cards = require('kik-cards');
+
 /*
 	Dear Mike,
 	Welcome to Redis in NodeJS.
@@ -26,50 +28,49 @@ var redis = require('redis-url')
 	library because that would bring down the server.
 */
 
-var http = require('http');
 
-// returns null if no push token found
-function getPushTokenForUser(username) {
-	// ...
-}
-
-function actuallySendMessage(token, ticker, text, username, profilePicUrl) {
-	var options = {
-		host: 'https://api.kik.com',
-		path: '/push/v1/send'
-	};
-
-	var req = http.request(options, function() {
-		console.log('sent cards push notification');
-	});
-
-	// note: timestamp is in milliseconds since epoch
-	var pushData = {
-		token: token,
-		ticker: ticker,
-		data: {
-			timestamp: (+new Date()),
-			text: text,
-			username: username,
+// callback can take single error parameter (which may be null)
+exports.uploadUserData = function(username, pushToken, profilePicUrl, displayName, expiryTime, callback) {
+	redis.hmset(
+		username, 
+		{
+			pushToken: pushToken,
 			profilePicUrl: profilePicUrl,
-		}
-	};
-
-	req.write(JSON.stringify(pushData));
-	req.end();
-}
-
-exports.uploadUserData = function(username, pushToken, profilePicUrl, displayName, callback) {
-
+			displayName: displayName,
+			expiryTime: expiryTime
+		},
+		function(err) {
+			if (err) {
+				console.log('failed to set user data: ' + err);
+				callback('Failed to persist user data. Try again later.');
+			}
+			else {
+				console.log('set user data for user ' + username);
+				callback(null);
+			}
+		});
 };
 
 // 'to' is an array of usernames
-// callback is a function that takes a single parameter - an array of usernames of users who were unable to receive the message
+// callback is a function that takes 2 parameters - err (error, which is null if successful) and an array 
+// of usernames which were not successfully sent to (ie. if the push failed or they haven't registered with float)
 exports.sendMessage = function(from, to, content, callback) {
 	var unregisteredUsers = [];
 
+	var usersToPushTo = to.length;
+
 	to.forEach(function(username) {
-		var pushToken = getPushTokenForUser(username);
+		redis.hgetall(username, function(err, userData) {
+			if (err) {
+
+			}
+			else {
+				var payload = {}; // TODO populate me with message, timestamp, expiry time, etc.
+				cards.push.send(userData.pushToken, 'message from ' + username, payload, function(err, shouldDeleteToken) {
+
+				});
+			}
+		});
 
 		if (!pushToken) {
 			unregisteredUsers.push(username);
