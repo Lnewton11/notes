@@ -38,10 +38,7 @@
 	padding: 0;
 	margin: 0;
 }
-.home-page .app-topbar{
-	background-color: #30b7de;
-}
 
-.send-page .app-topbar {
+.app-topbar {
 	background-color: #30b7de;
 }

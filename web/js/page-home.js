@@ -22,11 +22,9 @@ App.populator('home', function (page, data) {
 
 		new_convo.clickable().on('click', function () {
 			if (data.has_read) {
-				//TODO
 				App.dialog({
-					title: 'Too fucking bad',
-					text: 'Seriously',
-					cancelButton: 'My bad'
+					title: 'Message has Expired',
+					okButton: 'OK'
 				});
 			} else {
 				//TODO: go to the message

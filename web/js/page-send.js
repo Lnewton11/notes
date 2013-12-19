@@ -5,11 +5,14 @@ App.populator('send', function (page) {
 	    timer = $(page).find('#timer'),
 	    select_friends_template = $(page).find('#add'),
 		usernames  = [],
-	    pictures = [];
+	    pictures = [],
+	    timer_value = 6;
 
 	timer.clickable().bind('change', function (){
+		timer_value = timer.find('#time-select').val();
+		timer.css('background-image', 'url(/img/' + timer_value + '.png)');
 		console.log("yo dog i'm a log " + timer.find('#time-select').val());
-	})
+	});
 /*
 
         Clickable(timer);
