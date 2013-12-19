@@ -3,6 +3,7 @@ App.populator('home', function (page, data) {
 	var convo_list = $(page).find('.history');
 		sent_convo_template = $(page).find('.sent-convo').remove(),
 		convo_template = $(page).find('.convo').remove();
+		message = $(page).find('.message');
 
 	var test_users = [{username:"test_user_4", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 4", firstName:"Test", lastName:"User 4"},{username:"test_user_3", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 3", firstName:"Test", lastName:"User 3"},{username:"test_user_2", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 2", firstName:"Test", lastName:"User 2"},{username:"test_user_1", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 1", firstName:"Test", lastName:"User 1"}],
 		test_data = [{timestamp: '20 min'}]; 
@@ -17,7 +18,7 @@ App.populator('home', function (page, data) {
 			new_convo.find('.expired-text').text('Expired message');
 		} else {
 			new_convo.find('.state-icon').css('background-image', 'url(/img/small-unread.png)');
-			new_convo.find('.expired-text').text('Unread message');
+			new_convo.find('.expired-text').text('Unread message, Tap to view');
 		}
 
 		new_convo.clickable().on('click', function () {
@@ -27,7 +28,8 @@ App.populator('home', function (page, data) {
 					okButton: 'OK'
 				});
 			} else {
-				//TODO: go to the message
+				App.load('message', data);
+				console.log('load');
 			}
 		});
 
@@ -70,8 +72,8 @@ App.populator('home', function (page, data) {
 		convo_info.forEach(function ( message ) {
 			var new_convo = make_convo(message);
 			convo_list.prepend(new_convo);
-		})
-	}
+		});
+	};
 
 	// check if we came from $('send').on('click') => page-send
 	// if so, we need to add a new sent message to the top of the list
@@ -92,12 +94,16 @@ App.populator('home', function (page, data) {
 		full_name: 'Douche Bag',
 		thumbnail: 'http://d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg',
 		has_read: false,
-		timestamp: '5 min'
+		timestamp: '5 min',
+		lifeSpan: 3,
+		text: 'This is the message'
 	}, {
 		full_name: 'Douche Jones',
 		thumbnail: 'http://d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg',
 		has_read: true,
-		timestamp: '10 min'
+		timestamp: '10 min',
+		lifeSpan: 3,
+		text: 'This is the message (part 2)'
 	}]);
 
 	convo_list.prepend( make_sent_convo(test_users, test_data) );

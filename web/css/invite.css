@@ -8,7 +8,7 @@
   background-color: #fff; 
 }
 
-#contact-img {
+.contact-img {
   float: left;
   background-image: url(http://profilepics.kik.com/UlXvDoTGwzgAXeU1tjBa4JYn3ds/thumb.jpg);
   width: 48px;
@@ -33,7 +33,7 @@
   overflow: hidden;
 }
 
-#invite-button {
+.app-button.invite-button {
 	float: right;
 	width: 54px;
 	height: 29px;
@@ -50,4 +50,18 @@
 .contact .name {
 	margin-top: 13px;
 
+}
+
+.par-holder {
+	border-bottom: 1px;
+	border-color: #cccccc;	
+}
+
+.par-holder .message {
+	color: #717171;
+	padding: 15px 12px;
+	margin-top: 14px;
+	line-height: 17px;
+	font-size: 15px;
+	text-align: center;
 }
