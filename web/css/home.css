@@ -46,8 +46,7 @@
   background-color: #fff; 
 }
 .convo.active {
-  background: red;
-  /*TODO*/
+  background: #F7F7F7;
 }
 
 .img {
