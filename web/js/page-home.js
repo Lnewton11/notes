@@ -139,6 +139,9 @@ App.populator('home', function (page, data) {
 		else {
 			new_convo.find('.sent-text').text('Sent to ' + message.users.length + ' Person');
 		}
+		if (message.users.length > 6){
+			new_convo.css('height', '86px');
+		}
 
 		cards.kik.getUser(function (user) {
 			new_convo.find('.img').css('background-image', 'url(' + user.pic + ')');

@@ -28,7 +28,7 @@ App.populator('invite', function (page, data) {
 				cards.kik.send(username, {
 					title: 'Float',
 					text: user.firstName + ' is inviting you to join them on Float! It\'s a great card that lets you send disappearing messages to your friends',
-					pic: '/img/biglogonew.png'
+					pic: '/img/biglogo-copy.png'
 				});
 				console.log('sent?');
 			});
