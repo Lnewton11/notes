@@ -4,6 +4,7 @@ App.populator('home', function (page, data) {
 		convo_template = $(page).find('.convo').remove();
 		message = $(page).find('.message');
 
+
 	function formatDate(date) {
 		console.log("FORMAT DATE: " + date);
 	console.log(date);
@@ -72,7 +73,6 @@ App.populator('home', function (page, data) {
 		renderMessageList();
 	});
 
-	//TODO: actually make this button exist
 	$(page).find('.clear-messages').click(function () {
 		Messages.clear();
 	});
@@ -157,6 +157,7 @@ App.populator('home', function (page, data) {
 		});
 	};
 
+
 	function renderMessageList() {
 		var messages = Messages.get();
 
@@ -171,5 +172,13 @@ App.populator('home', function (page, data) {
 			}
 			convo_list.append(convo);
 		});
+
+		if (messages.length === 0) {
+			App.dialog({
+				title: 'Welcome to Float!',
+				text: 'Tap on the airplane to write your first message',
+				okButton: 'OK'
+			});
+		}
 	};
 });

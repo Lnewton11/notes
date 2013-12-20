@@ -42,7 +42,7 @@
 	height: 44px;
 	position: absolute;
 	background-size: 29px 19px;
-	background-image: url(/img/navplane.png);
+	background-image: url(/img/navplane.png?inline=1);
 	background-repeat: no-repeat;
 	background-position: center;
 	padding: 0;

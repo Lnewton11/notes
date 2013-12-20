@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!-- <html manifest="cache.manifest"> -->
-<html>
+<html manifest="cache.manifest">
 	<head>
 		<!-- Card info -->
 		<title>Float</title>
@@ -13,11 +12,11 @@
 
 		<!-- Styles -->
 		<link rel="stylesheet" href="http://cdn.kik.com/app/2-DEV/app.min.css">
-		<link rel="stylesheet" href="/css/styles.css">
-		<link rel="stylesheet" href="/css/home.css">
-		<link rel="stylesheet" href="/css/send.css">
-		<link rel="stylesheet" href="/css/message.css">
-		<link rel="stylesheet" href="/css/invite.css">
+		<link rel="stylesheet" href="/css/styles.css?inline=1">
+		<link rel="stylesheet" href="/css/home.css?inline=1">
+		<link rel="stylesheet" href="/css/send.css?inline=1">
+		<link rel="stylesheet" href="/css/message.css?inline=1">
+		<link rel="stylesheet" href="/css/invite.css?inline=1">
 	</head>
 
 	<body>
@@ -40,14 +39,14 @@
 				<div class="app-title"></div>
 				<div class="app-button right" id="compose" data-target="send"></div>
 			</div>
-			<div class="app-content">
-				<div class="history">
+			<div class="app-content" id="placeholder">
+				<div class="history"> 
 					<div class="convo">
 						<div class="img"></div>
 						<div class="holder">
 							<div class="name-holder">
-								<div class="timestamp">12 min</div>
-								<div class="name">Test Name</div>
+								<div class="timestamp"></div>
+								<div class="name"></div>
 							</div>
 							<div class="message-state">
 								<div class="state-text"><span class="state-icon"></span> <span class="expired-text"></span> </div>
@@ -97,7 +96,7 @@
 		                	<option value="12">12 seconds</option>
                     	</select>
 					</div>
-					<textarea class="app-input" id="message" placeholder="Type a message..."></textarea>
+					<textarea class="app-input" id="message" placeholder="Type a message..." maxlength="400"></textarea>
 				</div>
 			</div>
 		</div>
@@ -128,24 +127,24 @@
 				<div class="app-title">Message</div>
 			</div>
 			<div class="app-content message-stuff">
-				<div class="rec-timer"> 8 </div>
+				<div class="rec-timer"> </div>
 				<div class="app-message"> test me like you'd test your grandma </div>
 		</div>
 
 
 
 		<!-- Scripts -->
-		<script src="/zerver/API.js"></script>
-		<script src="/js/moment.min.js"></script>
 		<script src="http://zeptojs.com/zepto.min.js"></script>
 		<script src="http://cdn.kik.com/cards/0/cards.js"></script>
 		<script src="http://cdn.kik.com/app/2-DEV/app.min.js"></script>
-		<script src="/js/sent-messages.js"></script>
-		<script src="/js/page-home.js"></script>
-		<script src="/js/page-send.js"></script>	
-		<script src="/js/page-welcome.js"></script>	
-		<script src="/js/page-invite.js"></script>
-		<script src="/js/page-message.js"></script>
-		<script src="/js/main.js"></script>
+		<script src="/zerver/API.js?inline=1"></script>
+		<script src="/js/moment.min.js?inline=1"></script>
+		<script src="/js/sent-messages.js?inline=1"></script>
+		<script src="/js/page-home.js?inline=1"></script>
+		<script src="/js/page-send.js?inline=1"></script>	
+		<script src="/js/page-welcome.js?inline=1"></script>	
+		<script src="/js/page-invite.js?inline=1"></script>
+		<script src="/js/page-message.js?inline=1"></script>
+		<script src="/js/main.js?inline=1"></script>
 	</body>
 </html>
