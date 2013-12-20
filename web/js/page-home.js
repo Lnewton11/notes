@@ -4,6 +4,57 @@ App.populator('home', function (page, data) {
 		convo_template = $(page).find('.convo').remove();
 		message = $(page).find('.message');
 
+	function formatDate(date) {
+		console.log("FORMAT DATE: " + date);
+	console.log(date);
+	var then = date;
+	var now  = +new Date();
+	var diff = now-then;
+
+	var result = '';
+
+	if (diff < 0) {
+		result = 'Great Scott!';
+	}
+	else if (diff < 2 * 60 * 1000) {
+		result = '1 min';
+	}
+	else if (diff < 60 * 60 * 1000) {
+		result = Math.floor(diff / (60*1000)) + ' min';
+	}
+	else if (diff < 2 * 60 * 60 * 1000) {
+		result = '1 hour';
+	}
+	else if (diff < 24 * 60 * 60 * 1000) {
+		result = Math.floor(diff / (60*60*1000)) + ' hours';
+	}
+	else if (diff < 2 * 24 * 60 * 60 * 1000) {
+		result = '1 day';
+	}
+	else if (diff < 7 * 24 * 60 * 60 * 1000) {
+		result = Math.floor(diff / (24*60*60*1000)) + ' days';
+	}
+	else if (diff < 14 * 24 * 60 * 60 * 1000) {
+		result = '1 week';
+	}
+	else if (diff < 30 * 24 * 60 * 60 * 1000) {
+		result = Math.floor(diff / (7*24*60*60*1000)) + ' weeks';
+	}
+	else if (diff < 60 * 24 * 60 * 60 * 1000) {
+		result = '1 month';
+	}
+	else if (diff < 365 * 24 * 60 * 60 * 1000) {
+		result = Math.floor(diff / (30*24*60*60*1000)) + ' months';
+	}
+	else {
+		result = 'long ago';
+	}
+
+	return result;
+}
+
+
+
 	cards.kik.getUser(function (user) {
 		cards.push.getToken(function (token) {
 			cards.ready(function () {
@@ -13,7 +64,9 @@ App.populator('home', function (page, data) {
 			});
 		});
 	});
-		
+	
+
+
 	renderMessageList();
 	Messages.on('message', function (message) {
 		renderMessageList();
@@ -27,6 +80,8 @@ App.populator('home', function (page, data) {
 
 
 	function make_convo(data) {
+		console.log("MAKE_CONVO");
+
 		var new_convo = convo_template.clone();
 
 		new_convo.find('.name').text(data.full_name);
@@ -52,7 +107,7 @@ App.populator('home', function (page, data) {
 		});
 
 		new_convo.find('.img').css('background-image', 'url(' + data.thumbnail + ')');
-		new_convo.find('.timestamp').text(data.timestamp);
+		new_convo.find('.timestamp').text(formatDate(data.timestamp));
 		return new_convo;
 	}
 
@@ -64,6 +119,8 @@ App.populator('home', function (page, data) {
 
 	function make_sent_convo(message) {
 
+		console.log("MAKE_SENT_CONVO");
+
 		var new_convo = sent_convo_template.clone(),
 			list_of_pictures = new_convo.find('.picture-list');
 
@@ -72,10 +129,16 @@ App.populator('home', function (page, data) {
 			var pic = make_tiny_circle(user.thumbnail);
 			list_of_pictures.append(pic);
 		});
-
-		new_convo.find('.sent-timestamp').text(message.timestamp);
-		console.log(message.timestamp);
-		new_convo.find('.sent-text').text('Sent to ' + message.users.length + ' People');
+		console.log(data.timestamp);
+		//var time = moment(message.timestamp);
+		new_convo.find('.sent-timestamp').text(formatDate(message.timestamp));
+		//console.log(message.timestamp);
+		if (message.users.length > 1){
+			new_convo.find('.sent-text').text('Sent to ' + message.users.length + ' People');
+		}
+		else {
+			new_convo.find('.sent-text').text('Sent to ' + message.users.length + ' Person');
+		}
 
 		cards.kik.getUser(function (user) {
 			new_convo.find('.img').css('background-image', 'url(' + user.pic + ')');
@@ -99,10 +162,11 @@ App.populator('home', function (page, data) {
 		messages.forEach(function (message) {
 			if (message.isSent) {
 				var convo = make_sent_convo(message);
-			} else {
+			} 
+			else {
 				var convo = make_convo(message);
 			}
 			convo_list.append(convo);
 		});
-	}
+	};
 });

@@ -120,6 +120,8 @@ App.populator('send', function (page) {
 							}),
 							timestamp: +new Date()
 						});
+
+						console.log("SAVED MESSAGE");
 					}
 
 					if (invitables.length) {
@@ -134,6 +136,8 @@ App.populator('send', function (page) {
 						App.back();
 					}
 					usernames = [];
+
+					console.log("HERE");
 				}
 			);
 		});
