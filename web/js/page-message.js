@@ -4,6 +4,10 @@ App.populator('message', function (page, data) {
 		isDead = true;
 	});
 
+	this.ready(function () {
+		Messages.markAsRead(data);
+	});
+
 	$(page).find('.app-message').text(data.text);
 	setTime(data.lifeSpan);
 

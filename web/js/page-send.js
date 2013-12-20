@@ -6,7 +6,7 @@ App.populator('send', function (page) {
 	    select_friends_template = $(page).find('#add'),
 		usernames  = [],
 	    pictures = [],
-	    timer_value = 6;
+	    timer_value = '6';
 
 	timer.clickable().bind('change', function (){
 		timer_value = timer.find('#time-select').val();
@@ -33,7 +33,7 @@ App.populator('send', function (page) {
 	});
 	
 	add_button.on('click', function () {
-		cards.kik.pickUsers( { maxResults : 14, preselected : usernames }, function (users){
+		cards.kik.pickUsers( { maxResults : 14 }, function (users){
 			if (!users){
 				return;
 			}
@@ -51,7 +51,7 @@ App.populator('send', function (page) {
 
 				if (is_match === false) { 
 					console.log('new user selected, adding to array: ' + user.username);
-					usernames.push( user );
+					usernames.push(user);
 				}
 				
 			});
@@ -78,9 +78,64 @@ App.populator('send', function (page) {
 			});
 			return;
 		}
+
 		console.log(usernames);
 		console.log(message_input.val());
-		usernames = [];
-		App.load('home', { 'has_sent_message' : true, 'userlist' : usernames })
+
+		//TODO: show loading spinner
+		cards.kik.getUser(function (user) {
+			API.sendMessage(
+				usernames.map(function (user) { return user.username }),
+				{
+					id: cards.utils.random.uuid(),
+					full_name: user.fullName,
+					thumbnail: user.thumbnail,
+					has_read: false,
+					timestamp: +new Date(),
+					lifeSpan: parseInt(timer_value),
+					text: message_input.val()
+				},
+				function (invitables) {
+					//TODO: hide loading spinner
+
+					var sentUsers = usernames.filter(function (user) {
+						var index = invitables.indexOf(user.username);
+						if (index === -1) {
+							return true;
+						} else {
+							return false;
+						}
+					});
+
+					if (sentUsers.length > 0) {
+						Messages.save({
+							isSent: true,
+							users: usernames.filter(function (user) {
+								var index = invitables.indexOf(user.username);
+								if (index === -1) {
+									return true;
+								} else {
+									return false;
+								}
+							}),
+							timestamp: +new Date()
+						});
+					}
+
+					if (invitables.length) {
+						App.load('invite', {
+							invitables: invitables,
+							sendto: usernames
+						});
+						App.removeFromStack(1);
+						console.log(invitables.join(', '));
+					} else {
+						App.removeFromStack(1);
+						App.back();
+					}
+					usernames = [];
+				}
+			);
+		});
 	});
 });

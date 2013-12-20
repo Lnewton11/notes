@@ -1,3 +1,7 @@
+.app-ios .history {
+	min-height: 100%;
+	padding-bottom: 1px;
+}
 
 .app-content .history .convo .img {
 /*	display: inline-block;

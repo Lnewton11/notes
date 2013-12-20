@@ -9,6 +9,7 @@ App.populator('welcome', function (page) {
 				return;
 			}
 			App.load('home');
+			App.removeFromStack(0);
 		});
 	});
 });

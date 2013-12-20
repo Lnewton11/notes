@@ -30,14 +30,13 @@ var cards = require('kik-cards');
 
 
 // callback can take single error parameter (which may be null)
-exports.uploadUserData = function(username, pushToken, profilePicUrl, displayName, expiryTime, callback) {
+exports.uploadUserData = function(username, pushToken, profilePicUrl, displayName, callback) {
 	redis.hmset(
 		username, 
 		{
 			pushToken: pushToken,
 			profilePicUrl: profilePicUrl,
 			displayName: displayName,
-			expiryTime: expiryTime
 		},
 		function(err) {
 			if (err) {
@@ -54,31 +53,35 @@ exports.uploadUserData = function(username, pushToken, profilePicUrl, displayNam
 // 'to' is an array of usernames
 // callback is a function that takes 2 parameters - err (error, which is null if successful) and an array 
 // of usernames which were not successfully sent to (ie. if the push failed or they haven't registered with float)
-exports.sendMessage = function(from, to, content, callback) {
+exports.sendMessage = function(to, message, callback) {
 	var unregisteredUsers = [];
-
-	var usersToPushTo = to.length;
+	var peopleLeft = to.length;
 
 	to.forEach(function(username) {
 		redis.hgetall(username, function(err, userData) {
-			if (err) {
-
-			}
-			else {
-				var payload = {}; // TODO populate me with message, timestamp, expiry time, etc.
-				cards.push.send(userData.pushToken, 'message from ' + username, payload, function(err, shouldDeleteToken) {
-
+			if (userData && userData.pushToken) {
+				cards.push.send(userData.pushToken, 'Message from ' + message.full_name, message, function(err, shouldDeleteToken) {
+					if (err) {
+						console.error('PUSH ERROR');
+						console.error(err);
+					}
+					if (shouldDeleteToken) {
+						//TODO: delete token
+						console.error('MUST DELETE TOKEN FOR '+username);
+					}
 				});
+			} else {
+				unregisteredUsers.push(username);
+			}
+
+			peopleLeft--;
+			if (peopleLeft === 0) {
+				finish();
 			}
 		});
-
-		if (!pushToken) {
-			unregisteredUsers.push(username);
-		}
-		else {
-			actuallySendMessage(pushToken, 'message received from ' + from);
-		}
 	});
 
-	callback(unregisteredUsers);
+	function finish() {
+		callback(unregisteredUsers);
+	}
 };

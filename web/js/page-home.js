@@ -1,12 +1,30 @@
 App.populator('home', function (page, data) {
-		
 	var convo_list = $(page).find('.history');
 		sent_convo_template = $(page).find('.sent-convo').remove(),
 		convo_template = $(page).find('.convo').remove();
 		message = $(page).find('.message');
 
-	var test_users = [{username:"test_user_4", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 4", firstName:"Test", lastName:"User 4"},{username:"test_user_3", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 3", firstName:"Test", lastName:"User 3"},{username:"test_user_2", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 2", firstName:"Test", lastName:"User 2"},{username:"test_user_1", thumbnail:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg", pic:"//d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/orig.jpg", fullName:"Test User 1", firstName:"Test", lastName:"User 1"}],
-		test_data = [{timestamp: '20 min'}]; 
+	cards.kik.getUser(function (user) {
+		cards.push.getToken(function (token) {
+			cards.ready(function () {
+				if (user && token) {
+					API.uploadUserData(user.username, token, user.thumbnail, user.fullName, function(){});
+				}
+			});
+		});
+	});
+		
+	renderMessageList();
+	Messages.on('message', function (message) {
+		renderMessageList();
+	});
+
+	//TODO: actually make this button exist
+	$(page).find('.clear-messages').click(function () {
+		Messages.clear();
+	});
+
+
 
 	function make_convo(data) {
 		var new_convo = convo_template.clone();
@@ -44,26 +62,24 @@ App.populator('home', function (page, data) {
 		return tiny_pic;
 	}
 
-	function make_sent_convo(users_sent_to, dataz) {
+	function make_sent_convo(message) {
 
 		var new_convo = sent_convo_template.clone(),
 			list_of_pictures = new_convo.find('.picture-list');
 
 
-		users_sent_to.forEach(function (user) {
+		message.users.forEach(function (user) {
 			var pic = make_tiny_circle(user.thumbnail);
 			list_of_pictures.append(pic);
 		});
 
-		new_convo.find('.sent-timestamp').text(dataz.timestamp);
-		console.log(dataz.timestamp);
-		new_convo.find('.sent-text').text('Sent to ' + users_sent_to.length + ' People');
+		new_convo.find('.sent-timestamp').text(message.timestamp);
+		console.log(message.timestamp);
+		new_convo.find('.sent-text').text('Sent to ' + message.users.length + ' People');
 
 		cards.kik.getUser(function (user) {
 			new_convo.find('.img').css('background-image', 'url(' + user.pic + ')');
 		});
-		//new_convo.find('.picture-list').children(list_of_pictures);
-		// add list_of_pictures as a child of new_convo
 
 		return new_convo;
 	}
@@ -75,44 +91,18 @@ App.populator('home', function (page, data) {
 		});
 	};
 
-	// check if we came from $('send').on('click') => page-send
-	// if so, we need to add a new sent message to the top of the list
-	// if ( data.has_sent_message ) {
-	// 	var new_sent_convo = make_sent_convo(data.userlist);
-	// 	convo_template.prepend(new_sent_convo);
-	// }
+	function renderMessageList() {
+		var messages = Messages.get();
 
+		convo_list.empty();
 
-	// API.get_message_history( function (messages) {
-	// 	populate_message_history(messages);
-	// });
-
-	convo_list.prepend( make_sent_convo(test_users, test_data) );
-	convo_list.prepend( make_sent_convo(test_users, test_data) );
-
-	populate_message_history([{
-		full_name: 'Douche Bag',
-		thumbnail: 'http://d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg',
-		has_read: false,
-		timestamp: '5 min',
-		lifeSpan: 3,
-		text: 'This is the message'
-	}, {
-		full_name: 'Douche Jones',
-		thumbnail: 'http://d33vud085sp3wg.cloudfront.net/J5roT6QFsOfNFZjrYI4Vedxfpjk/thumb.jpg',
-		has_read: true,
-		timestamp: '10 min',
-		lifeSpan: 3,
-		text: 'This is the message (part 2)'
-	}]);
-
-	convo_list.prepend( make_sent_convo(test_users, test_data) );
-	convo_list.prepend( make_sent_convo(test_users, test_data) );
+		messages.forEach(function (message) {
+			if (message.isSent) {
+				var convo = make_sent_convo(message);
+			} else {
+				var convo = make_convo(message);
+			}
+			convo_list.append(convo);
+		});
+	}
 });
-
-// {
-// 	'full_name' : 'something',
-// 	'thumbnail' : 'a_link',
-// 	'has_read' : boolean,
-// 	'timestamp' : DateTime
-// }

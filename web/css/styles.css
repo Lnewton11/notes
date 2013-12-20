@@ -1,12 +1,22 @@
 /* put stuff here */
 
-#sendbutton {
-	font-style: italic;
-	font-size: 15pt;
-	width: 100%;
-	background-color: #cc3333;
-	top: 200px;
-	/*text-align: right;*/
+.weltitle {
+	background-image: url(/img/biglogo.png);
+	height: 171px;
+	width: 155px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	margin-top: 39px;
+	margin-left: 79px;
+}
+
+.welcome-page .message {
+	text-align: center;
+	color: #ffffff;
+	height: 75px;
+	padding-top: 44px;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 
 .button-wrap {
@@ -19,7 +29,7 @@
     position: relative;
     height: 72px;
     background: #fff;
-    color: #4486f0;
+    color: #30b7de;
     font-size: 20px;
     font-weight: 300;
     line-height: 72px;
